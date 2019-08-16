@@ -68,8 +68,6 @@ class ModernWindow(QWidget):
         self.setWindowTitle(w.windowTitle())
         self.setGeometry(w.geometry())
 
-        self.installEventFilter(self)
-
         # Adding attribute to clean up the parent window when the child is closed
         self._w.setAttribute(Qt.WA_DeleteOnClose, True)
         self._w.destroyed.connect(self.__child_was_closed)
@@ -147,13 +145,10 @@ class ModernWindow(QWidget):
         self._w = None  # The child was deleted, remove the reference to it and close the parent window
         self.close()
 
-    def eventFilter(self, source, event):
-        if event.type() == QEvent.Close:
-            if not self._w:
-                return True
-            return self._w.close()
-
-        return QWidget.eventFilter(self, source, event)
+    def closeEvent(self, event):
+        if not self._w:
+            return True
+        event.setAccepted(self._w.close())
 
     def setWindowTitle(self, title):
         """ Set window title.
