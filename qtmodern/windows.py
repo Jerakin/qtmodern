@@ -147,8 +147,10 @@ class ModernWindow(QWidget):
 
     def closeEvent(self, event):
         if not self._w:
-            return True
-        event.setAccepted(self._w.close())
+            event.accept()
+        else:
+            self._w.close()
+            event.setAccepted(self._w.isHidden())
 
     def setWindowTitle(self, title):
         """ Set window title.
