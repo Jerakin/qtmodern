@@ -10,6 +10,8 @@ PLATFORM = platform.system()
 
 
 def resource_path(relative_path):
-    if hasattr(sys, '_MEIPASS'):
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS', False):  # PyInstaller
         return join(sys._MEIPASS, dirname(abspath(__file__)), relative_path)
+    elif getattr(sys, 'frozen', False):  # cx_Freeze
+        return join(dirname(abspath(sys.executable)), relative_path)
     return join(dirname(abspath(__file__)), relative_path)
