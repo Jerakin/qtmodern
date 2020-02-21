@@ -1,7 +1,5 @@
 from qtpy.QtGui import QPalette, QColor
-from qtpy.QtCore import QFile, QIODevice, QTextStream
-from ._utils import QT_VERSION, MODERN_STYLESHEET
-import qtmodern._resources_rc
+from ._utils import QT_VERSION, get_modern_stylesheet
 
 
 def _apply_base_theme(app):
@@ -16,10 +14,7 @@ def _apply_base_theme(app):
     else:
         app.setStyle('Fusion')
 
-    style = QFile(MODERN_STYLESHEET)
-    style.open(QIODevice.ReadOnly)
-    app.setStyleSheet(QTextStream(style).readAll())
-    style.close()
+    app.setStyleSheet(get_modern_stylesheet())
 
 
 def dark(app):

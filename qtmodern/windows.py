@@ -1,7 +1,7 @@
 from qtpy.QtCore import Qt, QMetaObject, Signal, Slot, QFile, QIODevice, QTextStream
 from qtpy.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QToolButton,
                             QLabel, QSizePolicy)
-from ._utils import QT_VERSION, PLATFORM, PLATFORM_MACOS, FRAMELESS_STYLESHEET
+from ._utils import QT_VERSION, PLATFORM, PLATFORM_MACOS, get_frameless_stylesheet
 import qtmodern._resources_rc
 
 
@@ -135,10 +135,7 @@ class ModernWindow(QWidget):
             self.setAttribute(Qt.WA_TranslucentBackground)
 
         # set stylesheet
-        style = QFile(FRAMELESS_STYLESHEET)
-        style.open(QIODevice.ReadOnly)
-        self.setStyleSheet(QTextStream(style).readAll())
-        style.close()
+        self.setStyleSheet(get_frameless_stylesheet())
 
         # automatically connect slots
         QMetaObject.connectSlotsByName(self)
